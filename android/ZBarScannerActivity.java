@@ -222,27 +222,6 @@ implements SurfaceHolder.Callback {
            // die(e.getMessage());
             return;
         }
-
-
-
-        /*  Camera.Parameters camParams = camera.getParameters();
-       if(flashMode.equals("on")) {
-            camParams.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-        } else if(flashMode.equals("off")) {
-            camParams.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        } else {
-            camParams.setFlashMode(Camera.Parameters.FLASH_MODE_AUTO);
-        }
-        if (android.os.Build.VERSION.SDK_INT >= 14) {
-        	camParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-        }
-
-        try { camera.setParameters(camParams); }
-        catch (RuntimeException e) {
-            Log.d("csZBar", "Unsupported camera parameter reported for flash mode: "+flashMode);
-        }
-
-        tryStartPreview();*/
     }
     private void setCameraDisplayOrientation(Activity activity ,int cameraId) {
         android.hardware.Camera.CameraInfo info =
@@ -351,14 +330,11 @@ implements SurfaceHolder.Callback {
         android.hardware.Camera.Parameters params = camera.getParameters();
         tryStopPreview();
         tryStartPreview();
-       
+
     }
 
-    public void toggleFlash(View view)
-    {
-     
-       
-    camera.startPreview();
+    public void toggleFlash(View view) {
+		camera.startPreview();
         android.hardware.Camera.Parameters camParams = camera.getParameters();
         //If the flash is set to off
         try {
@@ -369,8 +345,8 @@ implements SurfaceHolder.Callback {
         }   catch(RuntimeException e) {
 
         }
-            try
-        {
+
+		try {
            // camera.setParameters(camParams);
             camera.setPreviewDisplay(holder);
             camera.setPreviewCallback(previewCb);
@@ -387,11 +363,7 @@ implements SurfaceHolder.Callback {
             //tryStartPreview();
             //camParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             camera.setParameters(camParams);
-
-
-        }
-        catch(RuntimeException e)
-        {
+        } catch(RuntimeException e) {
             Log.d("csZBar", (new StringBuilder("Unsupported camera parameter reported for flash mode: ")).append(flashMode).toString());
         } catch (IOException e) {
         	Log.d("csZBar", (new StringBuilder("Wrong holder data")).append(flashMode).toString());
@@ -553,15 +525,16 @@ implements SurfaceHolder.Callback {
                 setCameraDisplayOrientation(this, 0);
 
                 android.hardware.Camera.Parameters camParams = camera.getParameters();
-                
+
                 //camParams.setFlashMode(Parameters.FLASH_MODE_TORCH);
 
                 try {
                    camParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
                    camera.setParameters(camParams);
-                }catch (Exception e){
-
+                } catch (Exception e) {
+					// TODO: don't swallow
                 }
+
                 camera.setPreviewDisplay(holder);
                 camera.setPreviewCallback(previewCb);
                 camera.startPreview();
